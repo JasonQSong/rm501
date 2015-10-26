@@ -1,6 +1,10 @@
-## To test
+# To test
 
-# Command
+## Command (Simply copy to the terminal)
+
+mkdir QuanjingSong
+
+cd QuanjingSong
 
 git clone https://github.com/JasonQSong/rm501.git
 
@@ -14,14 +18,15 @@ make
 
 ./rm501
 
-# Use
+## Use
 
 Hold N for Nest position
 
 Hold H for Home position
 
-Hold LShift for parallel movement, release for linear movement 
+While moving, hold LShift for parallel movement, release for linear movement 
 
+# Original Readme
 
 ![rm501.png](doc/rm501.png)
 
