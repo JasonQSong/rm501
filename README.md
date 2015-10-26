@@ -1,5 +1,7 @@
 ## To test
 
+# Command
+
 git clone https://github.com/JasonQSong/rm501.git
 
 cd rm501
@@ -11,6 +13,14 @@ git checkout -b proj2 origin/proj2
 make
 
 ./rm501
+
+# Use
+
+Hold N for Nest position
+
+Hold H for Home position
+
+Hold LShift for parallel movement, release for linear movement 
 
 
 ![rm501.png](doc/rm501.png)
