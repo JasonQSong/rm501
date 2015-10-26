@@ -99,6 +99,7 @@ typedef struct {
         double pos;
         double min;
         double max;
+        double tar;
     } j[5]; // joints
 
     double t[16];  // tool matrix
@@ -1388,6 +1389,59 @@ int main(int argc, char** argv) {
                     rotate_tool(&bot_inv,  cnt, 0, 1, 0);
                 }
             }
+
+#define PROJ2
+#ifdef PROJ2
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            if (keys[SDL_SCANCODE_H]) {
+                bot_fwd.j[0].tar= 30;
+                bot_fwd.j[1].tar= 0;
+                bot_fwd.j[2].tar= 0;
+                bot_fwd.j[3].tar= 90;
+                bot_fwd.j[4].tar= 0;
+            }
+            if (keys[SDL_SCANCODE_N]) {
+                bot_fwd.j[0].tar= -120;
+                bot_fwd.j[1].tar= 100;
+                bot_fwd.j[2].tar= -90;
+                bot_fwd.j[3].tar= 0;
+                bot_fwd.j[4].tar= 0;
+            }
+            if (keys[SDL_SCANCODE_H]||keys[SDL_SCANCODE_N]) {
+                i=1;
+                while(true){
+                    if(bot_fwd.j[i].tar>bot_fwd.j[i].pos){
+                        if(bot_fwd.j[i].tar-bot_fwd.j[i].pos<cnt){
+                            bot_fwd.j[i].pos = bot_fwd.j[i].tar;
+                        }
+                        else{
+                            jog_joint(&bot_fwd, i, cnt); 
+                            if (!keys[SDL_SCANCODE_LSHIFT] && !keys[SDL_SCANCODE_RSHIFT]) {
+                                break;
+                            }
+                        }
+                    }
+                    if(bot_fwd.j[i].tar<bot_fwd.j[i].pos){
+                        if(bot_fwd.j[i].tar-bot_fwd.j[i].pos>-cnt){
+                            bot_fwd.j[i].pos = bot_fwd.j[i].tar;
+                        }
+                        else{
+                            jog_joint(&bot_fwd, i, -cnt);
+                            if (!keys[SDL_SCANCODE_LSHIFT] && !keys[SDL_SCANCODE_RSHIFT]) {
+                                break;
+                            }
+                        }
+                    }
+                    if(i>=1&&i<=3)
+                        i++;
+                    else if(i==4)
+                        i=0;
+                    else if(i==0)
+                        break;
+                }
+            }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#endif
 
             if (ev.type == SDL_KEYDOWN) {
 
