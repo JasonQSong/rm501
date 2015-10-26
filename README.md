@@ -1,10 +1,17 @@
 ## To test
+
 git clone https://github.com/JasonQSong/rm501.git
+
 cd rm501
+
 git fetch --all
+
 git checkout -b proj2 origin/proj2
+
 make
+
 ./rm501
+
 
 ![rm501.png](doc/rm501.png)
 
