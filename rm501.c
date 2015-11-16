@@ -102,6 +102,11 @@ typedef struct {
         double tar;
     } j[5]; // joints
 
+#define PROJ3
+#ifdef PROJ3
+    int proj3counter;
+#endif
+
     double t[16];  // tool matrix
     int  err;      // error a to joint number if inverse kinematics fails
     char msg[512]; // opt. message from inverse kinematics
@@ -1375,6 +1380,7 @@ int main(int argc, char** argv) {
                 if (keys[SDL_SCANCODE_K])        { move_tool(&bot_inv, 1, -d); }
                 if (keys[SDL_SCANCODE_UP])       { move_tool(&bot_inv, 2,  d); }
                 if (keys[SDL_SCANCODE_DOWN])     { move_tool(&bot_inv, 2, -d); }
+
             } else {
                 if (keys[SDL_SCANCODE_UP])  {
                     rotate_tool(&bot_inv, -cnt, sin(deg2rad(bot_inv.j[0].pos)), 0, cos(deg2rad(bot_inv.j[0].pos)));
@@ -1407,6 +1413,22 @@ int main(int argc, char** argv) {
                 bot_fwd.j[3].tar= 0;
                 bot_fwd.j[4].tar= 0;
             }
+#ifdef PROJ3
+            if (keys[SDL_SCANCODE_V]) {
+                bot_inv.proj3counter=0;
+            }
+            if (keys[SDL_SCANCODE_C]) {
+                bot_inv.proj3counter%=360;
+                bot_inv.proj3counter++;
+                double theta=deg2rad(bot_inv.proj3counter);
+                bot_inv.t[12]=2.8+cos(theta)*0.6;
+                bot_inv.t[13]=2.4;
+                bot_inv.t[14]=sin(theta)*0.6;
+
+                do_kins_inv = 1;
+
+            }
+#endif
             if (keys[SDL_SCANCODE_H]||keys[SDL_SCANCODE_N]) {
                 i=1;
                 while(true){
